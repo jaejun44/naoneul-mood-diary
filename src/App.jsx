@@ -76,28 +76,34 @@ export default function App() {
   const auth = getAuth();
 
   const handleSave = async () => {
-    console.log("💾 handleSave 실행됨");
+  console.log("💾 handleSave 실행됨");
 
-    const today = new Date().toISOString().split('T')[0];
+  if (!emotion || !text.trim()) {
+    alert("감정과 내용을 모두 입력해주세요!");
+    console.warn("❗ 유효성 검사 실패: emotion or text 비어있음");
+    return;
+  }
 
-    const data = {
-      uid: 'test-user', // 임시 uid
-      emotion: emotion?.emoji ?? '',
-      text: text,
-      date: today,
-    };
+  const today = new Date().toISOString().split('T')[0];
 
-    console.log("📦 저장할 데이터:", data); // 저장 전 데이터 확인
-
-    try {
-      const docRef = await addDoc(collection(db, 'entries'), data); // Firestore 저장 시도
-      console.log("✅ Firestore 문서 ID:", docRef.id); // 저장된 문서의 ID 출력
-      alert("Firebase에 저장 완료!"); // 사용자에게 알림
-    } catch (error) {
-      console.error("🔥 Firestore 저장 오류:", error); // 에러 로그
-      alert("저장 실패! 콘솔을 확인해주세요."); // 사용자에게 알림
-    }
+  const data = {
+    uid: 'test-user',
+    emotion: emotion?.emoji ?? '',
+    text: text,
+    date: today,
   };
+
+  console.log("📦 저장할 데이터:", data);
+
+  try {
+    const docRef = await addDoc(collection(db, 'entries'), data);
+    console.log("✅ Firestore 문서 ID:", docRef.id);
+    alert("Firebase에 저장 완료!");
+  } catch (error) {
+    console.error("🔥 Firestore 저장 오류:", error);
+    alert("저장 실패! 콘솔을 확인해주세요.");
+  }
+};
   return (
     <div
       style={{
