@@ -34,19 +34,38 @@ export default function CalendarView() {
   };
 
   return (
-    <div style={{ textAlign: 'center' }}>
+  <div style={{ textAlign: 'center' }}>
+    
+    {/* 👇 캘린더를 flex로 감싸서 중앙 정렬 */}
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: '100%',
+      }}
+    >
       <Calendar
         onChange={handleDateChange}
         value={selectedDate}
         tileContent={tileContent}
       />
-
-      {entry && (
-        <div style={{ marginTop: '1rem', background: '#fff6f9', padding: '1rem', borderRadius: '12px' }}>
-          <p><strong>📅 {entry.date}</strong></p>
-          <p><strong>{entry.emotion}</strong> {entry.text}</p>
-        </div>
-      )}
     </div>
-  );
+
+    {/* 👇 선택한 날의 기록 내용 */}
+    {entry && (
+      <div
+        style={{
+          marginTop: '1rem',
+          background: '#fff6f9',
+          padding: '1rem',
+          borderRadius: '12px',
+        }}
+      >
+        <p><strong>📅 {entry.date}</strong></p>
+        <p><strong>{entry.emotion}</strong> {entry.text}</p>
+      </div>
+    )}
+  </div>
+);
 }
